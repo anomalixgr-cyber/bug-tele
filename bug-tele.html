@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ꦲꦤꦺꦴꦩ꧀ꦧꦿꦺꦴꦱꦼꦤ꧀ꦢꦼꦂ • AN0M949</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0b0f;
+            font-family: 'JetBrains Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Efek glitch background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(255, 40, 40, 0.02) 0px, rgba(0, 0, 0, 0.9) 2px, transparent 3px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(12, 10, 15, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid #aa2a2a;
+            border-radius: 2.5rem;
+            padding: 2rem 2.2rem;
+            box-shadow: 0 0 40px rgba(200, 0, 0, 0.4), 0 0 0 1px rgba(180, 0, 0, 0.3) inset;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header dengan logo */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #882222;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .logo-gambar {
+            width: 70px;
+            height: 70px;
+            border-radius: 22px;
+            background: #1c1518;
+            border: 2px solid #c44;
+            box-shadow: 0 0 25px #f33;
+            object-fit: cover;
+        }
+
+        .logo-teks {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px #f33, 2px 2px 0 #500;
+            background: linear-gradient(45deg, #ffa0a0, #ffdfdf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .aksara-badge {
+            background: #221515;
+            padding: 0.5rem 1.2rem;
+            border-radius: 3rem;
+            border: 1px solid #a33;
+            color: #faa;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-left: auto;
+            box-shadow: 0 0 12px #d22;
+        }
+
+        /* Layout utama flex */
+        .dashboard {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Panel kiri (virtex & preview) */
+        .panel-kiri {
+            flex: 1.3;
+            min-width: 380px;
+        }
+
+        .panel-kanan {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        /* Kotak virtex aksara */
+        .virtex-box {
+            background: #0d080a;
+            border: 2px solid #a33;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .virtex-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            color: #f99;
+        }
+
+        .virtex-header span {
+            font-size: 1.5rem;
+        }
+
+        .virtex-content {
+            background: #030202;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            font-size: 1.6rem;
+            line-height: 2.2rem;
+            color: #fdd;
+            word-break: break-all;
+            max-height: 280px;
+            overflow-y: auto;
+            font-family: 'Noto Sans Javanese', 'JetBrains Mono', monospace;
+            border: 1px solid #922;
+            box-shadow: inset 0 0 30px #200;
+        }
+
+        /* Loading animasi */
+        .loading-anim {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            background: #130b0b;
+            border-radius: 4rem;
+            padding: 1rem 2rem;
+            border: 1px solid #b44;
+            margin: 1.2rem 0;
+        }
+
+        .spin-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: url('https://files.catbox.moe/45uec1.jpg') center/cover;
+            border: 3px solid #f55;
+            animation: spin 1.8s linear infinite, pulse-glow 2s ease infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse-glow {
+            0% { filter: drop-shadow(0 0 5px #f33); }
+            50% { filter: drop-shadow(0 0 20px #f66); }
+            100% { filter: drop-shadow(0 0 5px #f33); }
+        }
+
+        .loading-text {
+            color: #faa;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .loading-bar {
+            width: 180px;
+            height: 10px;
+            background: #2d1a1a;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .loading-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #c44, #f66);
+            transition: width 0.3s ease;
+        }
+
+        /* Input dan kontrol */
+        .input-grup {
+            background: #0f0b0d;
+            border: 1px solid #a33;
+            border-radius: 2rem;
+            padding: 1.5rem;
+        }
+
+        .label-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #faa;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #1e1215;
+            border: 2px solid #b33;
+            border-radius: 3rem;
+            padding: 1.2rem 1.8rem;
+            color: #ffd0d0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #f66;
+            box-shadow: 0 0 25px #f33;
+        }
+
+        .jumlah-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #1b1212;
+            border-radius: 3rem;
+            border: 1px solid #a33;
+            padding: 0.3rem;
+        }
+
+        .jumlah-control button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #330f0f;
+            border: 2px solid #c44;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.1s;
+            line-height: 0;
+        }
+
+        .jumlah-control button:hover {
+            background: #a33;
+            border-color: #f77;
+        }
+
+        .jumlah-control input {
+            width: 90px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #fcc;
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        /* Tombol-tombol */
+        .tombol-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tombol {
+            flex: 1;
+            padding: 1.4rem 1rem;
+            border: none;
+            border-radius: 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 2px solid transparent;
+            min-width: 130px;
+        }
+
+        .tombol.primary {
+            background: linear-gradient(145deg, #9f2a2a, #d22);
+            color: white;
+            box-shadow: 0 5px 0 #4f0000;
+        }
+
+        .tombol.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #4f0000, 0 0 25px #f66;
+        }
+
+        .tombol.secondary {
+            background: #2a1818;
+            border-color: #a33;
+            color: #fbb;
+        }
+
+        .tombol.secondary:hover {
+            background: #3f2020;
+            border-color: #f66;
+        }
+
+        .tombol.danger {
+            background: #4f1111;
+            color: #fbb;
+            border-color: #b55;
+        }
+
+        .tombol.danger:hover:not(:disabled) {
+            background: #7a1a1a;
+            border-color: #f77;
+        }
+
+        .tombol:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Status & progress */
+        .status-area {
+            background: #100b0b;
+            border-radius: 2rem;
+            padding: 1.2rem 1.5rem;
+            border-left: 10px solid #b44;
+            color: #fbb;
+        }
+
+        .progress-tracking {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .progress-badge {
+            background: #2d1515;
+            border-radius: 4rem;
+            padding: 0.4rem 1.5rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #faa;
+        }
+
+        .result-log {
+            background: #0a0507;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            max-height: 210px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            color: #caa;
+            border: 1px solid #a3a;
+            margin-top: 1rem;
+        }
+
+        /* Footer aksara */
+        .footer-aksara {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: #a55;
+            font-size: 1.4rem;
+            letter-spacing: 6px;
+            border-top: 1px dashed #933;
+            padding-top: 1.5rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #221a1a; }
+        ::-webkit-scrollbar-thumb { background: #a33; border-radius: 10px; }
+    </style>
+    <!-- Font aksara jawa (fallback) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Javanese&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER DENGAN LOGO -->
+        <div class="header-logo">
+            <div class="logo-area">
+                <img src="https://files.catbox.moe/45uec1.jpg" class="logo-gambar" alt="AN0M949 logo">
+                <div class="logo-teks">ꦄꦤꦺꦴꦩ꧀ꦧꦿꦺꦴꦱꦼꦤ꧀ꦢꦼꦂ</div>
+            </div>
+            <div class="aksara-badge">ꦲꦏ꧀ꦱꦫꦗꦮ • V3.0</div>
+        </div>
+
+        <!-- DASHBOARD UTAMA -->
+        <div class="dashboard">
+            <!-- PANEL KIRI: VIRTEX AKSARA JAWA -->
+            <div class="panel-kiri">
+                <div class="virtex-box">
+                    <div class="virtex-header">
+                        <span>ꦗꦼꦩ꧀ꦧꦂꦮꦶꦂꦠꦼꦏ꧀</span>
+                        <span style="margin-left:auto;">⬇️ preview</span>
+                    </div>
+                    <div class="virtex-content" id="aksaraPreview">
+                        ꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾꦾ
+                    </div>
+                </div>
+
+                <!-- ANIMASI LOADING DENGAN LOGO -->
+                <div class="loading-anim">
+                    <div class="spin-logo"></div>
+                    <div style="flex:1">
+                        <div class="loading-text">ꦭꦺ�ꦢꦶꦁ ꦮꦶꦂꦠꦼꦏ꧀</div>
+                        <div class="loading-bar">
+                            <div class="loading-fill" id="loadingAnimFill" style="width:42%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL KANAN: KONTROL KIRIM -->
+            <div class="panel-kanan">
+                <!-- TARGET INPUT -->
+                <div class="input-grup">
+                    <div class="label-icon">
+                        <span>🎯</span> <span>ID / @username target</span>
+                    </div>
+                    <input type="text" class="input-field" id="targetInput" placeholder="@anon / 1234567890">
+                </div>
+
+                <!-- JUMLAH KIRIM -->
+                <div class="input-grup">
+                    <div class="label-icon">
+                        <span>🔁</span> <span>jumlah kirim (1–1000)</span>
+                    </div>
+                    <div class="jumlah-control">
+                        <button onclick="adjustJumlah(-1)">−</button>
+                        <input type="number" id="jumlahInput" min="1" max="1000" value="3" readonly>
+                        <button onclick="adjustJumlah(1)">+</button>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:0.5rem; color:#b77;">
+                        <span>⏱️ estimasi: <span id="estimasiWaktu">~6 detik</span></span>
+                        <span>📨 <span id="totalPesan">3</span>x</span>
+                    </div>
+                </div>
+
+                <!-- TOMBOL AKSI -->
+                <div class="tombol-grid">
+                    <button class="tombol primary" id="sendBtn" onclick="mulaiKirim()">🚀 ꦏꦶꦫꦶꦩ꧀</button>
+                    <button class="tombol secondary" id="testBtn" onclick="testBot()">🔍 ꦠꦺꦱ꧀ꦧꦺꦴꦠ꧀</button>
+                    <button class="tombol danger" id="stopBtn" onclick="stopPengiriman()" disabled>⏹️ ꦱ꧀ꦠꦺꦴꦥ꧀</button>
+                </div>
+
+                <!-- STATUS DAN PROGRESS -->
+                <div class="status-area" id="statusArea">
+                    <div class="progress-tracking">
+                        <span>📊 status</span>
+                        <span class="progress-badge" id="progressCount">0/0</span>
+                        <span style="margin-left:auto;" id="botStatusDot">●</span>
+                    </div>
+                    <div style="font-size:0.95rem; margin-top:0.7rem;" id="statusMessage">⏳ bot siap, masukkan target</div>
+                </div>
+
+                <!-- LOG RESPONSE -->
+                <div class="result-log" id="logArea">
+                    ⚡ log: menunggu perintah...
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER AKSARA JAWA -->
+        <div class="footer-aksara">
+            ꦄꦤꦺꦴꦩ꧀ꦧꦿꦴꦱꦼꦤ꧀ꦢꦼꦂ • ꦒꦱ꧀ꦏꦼꦤ꧀ꦧꦺꦴꦱ꧀ꦱ꧀ꦱ꧀
+        </div>
+    </div>
+
+    <script>
+        // ========== KONFIGURASI ==========
+        const BOT_TOKEN = '8406575949:AAGkaTbNXlHQj5vlYgm33M_JBmWIuRZhiDs';
+        const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+        const DELAY_MS = 2000; // 2 detik antar pesan
+
+        // State global
+        let isSending = false;
+        let stopRequested = false;
+        let totalSent = 0, totalSuccess = 0, totalFailed = 0;
+        let targetJumlah = 3;
+        let logLines = [];
+
+        // ========== ELEMEN DOM ==========
+        const targetInput = document.getElementById('targetInput');
+        const jumlahInput = document.getElementById('jumlahInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const testBtn = document.getElementById('testBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const progressCount = document.getElementById('progressCount');
+        const logArea = document.getElementById('logArea');
+        const estimasiSpan = document.getElementById('estimasiWaktu');
+        const totalPesanSpan = document.getElementById('totalPesan');
+        const botStatusDot = document.getElementById('botStatusDot');
+        const loadingFill = document.getElementById('loadingAnimFill');
+
+        // ========== FUNGSI BANTU ==========
+        function adjustJumlah(delta) {
+            let val = parseInt(jumlahInput.value) || 1;
+            val = Math.min(1000, Math.max(1, val + delta));
+            jumlahInput.value = val;
+            targetJumlah = val;
+            updateEstimasi();
+        }
+
+        function updateEstimasi() {
+            const jml = parseInt(jumlahInput.value) || 1;
+            const detik = jml * 2;
+            const menit = Math.floor(detik / 60);
+            const detikSisa = detik % 60;
+            estimasiSpan.innerText = menit > 0 ? `~${menit}m ${detikSisa}d` : `~${detik}d`;
+            totalPesanSpan.innerText = jml;
+            // animasi loading iseng
+            if (!isSending) loadingFill.style.width = (jml % 100) + '%';
+        }
+
+        function addLog(msg, isError = false) {
+            const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const prefix = isError ? '❌' : '✅';
+            logLines.unshift(`[${time}] ${prefix} ${msg}`);
+            if (logLines.length > 8) logLines.pop();
+            logArea.innerHTML = '⚡ ' + logLines.join('<br>⚡ ');
+        }
+
+        function setStatus(msg, type = 'info') {
+            statusMessage.innerText = msg;
+            // update dot bot (hijau/kuning/merah)
+            if (type === 'success') botStatusDot.style.color = '#0f0';
+            else if (type === 'error') botStatusDot.style.color = '#f44';
+            else botStatusDot.style.color = '#fa0';
+        }
+
+        function updateProgress() {
+            progressCount.innerText = `${totalSent}/${targetJumlah}`;
+            if (targetJumlah > 0) {
+                const persen = Math.min(100, (totalSent / targetJumlah) * 100);
+                loadingFill.style.width = persen + '%';
+            }
+        }
+
+          // ========== TEST BOT ==========
+        async function testBot() {
+            setStatus('⏳ test bot...', 'info');
+            addLog('test bot token', false);
+            try {
+                const res = await fetch(`${API_URL}/getMe`);
+                const data = await res.json();
+                if (data.ok) {
+                    setStatus(`✅ bot aktif: @${data.result.username}`, 'success');
+                    addLog(`bot @${data.result.username} siap`, false);
+                    botStatusDot.style.color = '#0f0';
+                } else {
+                    throw new Error(data.description);
+                }
+            } catch (e) {
+                setStatus('❌ token error / bot mati', 'error');
+                addLog('token tidak valid', true);
+                botStatusDot.style.color = '#f44';
+            }
+        }
+
+        // ========== KIRIM SATU PESAN (DENGAN RESCUE /start) ==========
+        async function kirimSatuPesan(chatId, teks, index) {
+            try {
+                let response = await fetch(`${API_URL}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: teks })
+                });
+                let data = await response.json();
+
+                // Jika chat not found, coba kirim /start dulu
+                if (!data.ok && data.description?.includes('chat not found')) {
+                    addLog(`target baru, kirim /start`, false);
+                    await fetch(`${API_URL}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatId, text: '/start' })
+                    });
+                    // tunggu sebentar
+                    await new Promise(r => setTimeout(r, 1200));
+                    // ulangi kirim virtex
+                    response = await fetch(`${API_URL}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatId, text: teks })
+                    });
+                    data = await response.json();
+                }
+
+                if (data.ok) {
+                    totalSuccess++;
+                    addLog(`#${index} berhasil`, false);
+                    return true;
+                } else {
+                    totalFailed++;
+                    addLog(`#${index} gagal: ${data.description?.slice(0, 40)}`, true);
+                    // jika error berat, return false (break)
+                    if (data.description?.includes('blocked') || data.description?.includes('kicked') || data.description?.includes('Forbidden')) {
+                        return 'fatal';
+                    }
+                    return false;
+                }
+            } catch (err) {
+                totalFailed++;
+                addLog(`#${index} error: ${err.message}`, true);
+                return false;
+            }
+        }
+
+        // ========== MULAI PENGIRIMAN MASSAL ==========
+        async function mulaiKirim() {
+            const target = targetInput.value.trim();
+            if (!target) {
+                setStatus('❌ masukkan target!', 'error');
+                addLog('target kosong', true);
+                return;
+            }
+
+            targetJumlah = parseInt(jumlahInput.value) || 1;
+            if (targetJumlah < 1 || targetJumlah > 1000) {
+                setStatus('❌ jumlah 1–1000', 'error');
+                return;
+            }
+
+            // Ambil teks virtex dari preview (bisa dikostum lewat DOM)
+            const teksKirim = document.getElementById('aksaraPreview').innerText;
+
+            // Konfirmasi via alert biar aman
+            if (!confirm(`ꦏꦶꦫꦶꦩ꧀ ${targetJumlah} ꦥꦼꦱꦤ꧀ ꦏꦺ ꦠꦒꦼꦠ꧀\n@${target} ?`)) return;
+
+            // Reset state
+            isSending = true;
+            stopRequested = false;
+            totalSent = 0; totalSuccess = 0; totalFailed = 0;
+            sendBtn.disabled = true;
+            stopBtn.disabled = false;
+            testBtn.disabled = true;
+            logLines = [];
+            addLog(`mulai kirim ${targetJumlah}x ke ${target}`, false);
+            setStatus(`🚀 mengirim 0/${targetJumlah} ...`, 'info');
+
+            for (let i = 1; i <= targetJumlah && isSending && !stopRequested; i++) {
+                totalSent = i;
+                updateProgress();
+                setStatus(`📨 mengirim ${i}/${targetJumlah}`, 'info');
+
+                const hasil = await kirimSatuPesan(target, teksKirim, i);
+                if (hasil === 'fatal') {
+                    addLog('⛔ error fatal, hentikan', true);
+                    setStatus('⛔ berhenti karena error', 'error');
+                    break;
+                }
+
+                if (i < targetJumlah && !stopRequested) {
+                    await new Promise(r => setTimeout(r, DELAY_MS));
+                }
+            }
+
+            // Selesai
+            isSending = false;
+            stopBtn.disabled = true;
+            sendBtn.disabled = false;
+            testBtn.disabled = false;
+            updateProgress();
+
+            const sukses = totalSuccess;
+            const gagal = totalFailed;
+            setStatus(`✅ selesai: ${sukses} berhasil, ${gagal} gagal`, gagal === 0 ? 'success' : 'error');
+            addLog(`selesai — sukses ${sukses} gagal ${gagal}`, gagal === 0 ? false : true);
+        }
+
+        // ========== STOP PENGIRIMAN ==========
+        function stopPengiriman() {
+            stopRequested = true;
+            setStatus('⏹️ menghentikan...', 'warning');
+            addLog('stop diminta', false);
+        }
+
+        // ========== INISIALISASI ==========
+        window.addEventListener('load', () => {
+            testBot();
+            updateEstimasi();
+            jumlahInput.addEventListener('input', updateEstimasi);
+            // random kecil buat loading anim
+            setInterval(() => {
+                if (!isSending) {
+                    const rand = Math.floor(Math.random() * 70) + 15;
+                    loadingFill.style.width = rand + '%';
+                }
+            }, 3200);
+        });
+    </script>
+</body>
+</html>
